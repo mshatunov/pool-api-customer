@@ -10,8 +10,11 @@ buildscript {
     }
 }
 
+plugins {
+    id 'net.ltgt.apt' version '0.15'
+}
+
 apply plugin: 'java'
-apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
@@ -37,7 +40,13 @@ dependencies {
     compile('org.springframework.cloud:spring-cloud-starter-config')
     compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
     compile('org.springframework.cloud:spring-cloud-starter-openfeign')
+
+    compileOnly('org.mapstruct:mapstruct-jdk8:1.2.0.Final')
     compileOnly('org.projectlombok:lombok')
+
+    apt('org.mapstruct:mapstruct-processor:1.2.0.Final')
+    apt('org.projectlombok:lombok')
+
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 

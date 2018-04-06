@@ -1,4 +1,4 @@
-package com.mshatunov.pool.api.customer.model;
+package com.mshatunov.pool.api.customer.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Customer {
-    String id;
-    String name;
+    private String id;
+    private String name;
 }
