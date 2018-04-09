@@ -15,6 +15,7 @@ plugins {
 }
 
 apply plugin: 'java'
+apply plugin: 'net.ltgt.apt-idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
@@ -44,8 +45,8 @@ dependencies {
     compileOnly('org.mapstruct:mapstruct-jdk8:1.2.0.Final')
     compileOnly('org.projectlombok:lombok')
 
-    apt('org.mapstruct:mapstruct-processor:1.2.0.Final')
-    apt('org.projectlombok:lombok')
+    annotationProcessor('org.mapstruct:mapstruct-processor:1.2.0.Final')
+    annotationProcessor('org.projectlombok:lombok')
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
