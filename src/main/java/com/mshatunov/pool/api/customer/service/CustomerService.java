@@ -1,10 +1,11 @@
 package com.mshatunov.pool.api.customer.service;
 
-import com.mshatunov.pool.api.customer.domain.Customer;
+import com.mshatunov.pool.api.customer.domain.LocalCustomer;
 
 import java.util.List;
 
 public interface CustomerService {
-    Customer getCustomer(String customerId);
-    List<Customer> getCustomers();
+    LocalCustomer getCustomer(String customerId);
+    List<LocalCustomer> getCustomers();
+    void saveCustomer(LocalCustomer customer);
 }

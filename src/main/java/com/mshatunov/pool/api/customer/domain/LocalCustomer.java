@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Customer {
+public class LocalCustomer {
     private String id;
     private String name;
 }

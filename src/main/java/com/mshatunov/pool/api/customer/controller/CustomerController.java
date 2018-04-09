@@ -2,11 +2,11 @@ package com.mshatunov.pool.api.customer.controller;
 
 import com.mshatunov.pool.api.customer.controller.converter.CustomerConverter;
 import com.mshatunov.pool.api.customer.controller.dto.CustomerDTO;
+import com.mshatunov.pool.api.customer.controller.dto.CustomerResponse;
 import com.mshatunov.pool.api.customer.service.CustomerService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,14 +19,19 @@ public class CustomerController {
     private final CustomerService service;
     private final CustomerConverter converter;
 
+    @PostMapping
+    public void createCustomer(@Validated @RequestBody CustomerDTO customer) {
+        service.saveCustomer(converter.convertCustomerDTOtoCustomer(customer));
+    }
+
     @GetMapping
-    public List<CustomerDTO> getCustomers() {
-        return converter.convertCustomersToDTO(service.getCustomers());
+    public List<CustomerResponse> getCustomers() {
+        return converter.convertCustomersToResponse(service.getCustomers());
     }
 
     @GetMapping(value = GET_URI)
-    public CustomerDTO getCustomer(@PathVariable("customerId") String customerId) {
-        return converter.convertCustomerToDTO(service.getCustomer(customerId));
+    public CustomerResponse getCustomer(@PathVariable("customerId") String customerId) {
+        return converter.convertCustomerToResponse(service.getCustomer(customerId));
     }
 
 }
