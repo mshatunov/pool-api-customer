@@ -1,10 +1,8 @@
 FROM frolvlad/alpine-oraclejdk8:slim
 
-LABEL Description="Customer api" Version="0.0.1"
+LABEL Description="Pool customer api"
 
 ARG VERSION=0.0.1
-
-VOLUME /tmp
 
 ADD build/libs/customer-api-${VERSION}-SNAPSHOT.jar app.jar
 

@@ -11,11 +11,10 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LocalCustomer {
-    private String id;
+public class Parent {
     private String name;
-    private String lastName;
-    private String middleNaame;
+    private String lastNname;
+    private String middleNname;
     private List<Contact> contacts;
     private List<Parent> parents;
 }
