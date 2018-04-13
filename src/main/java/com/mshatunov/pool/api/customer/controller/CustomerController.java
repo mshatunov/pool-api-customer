@@ -1,7 +1,7 @@
 package com.mshatunov.pool.api.customer.controller;
 
 import com.mshatunov.pool.api.customer.controller.converter.CustomerConverter;
-import com.mshatunov.pool.api.customer.controller.dto.CustomerDTO;
+import com.mshatunov.pool.api.customer.controller.dto.CustomerCreateRequest;
 import com.mshatunov.pool.api.customer.controller.dto.CustomerResponse;
 import com.mshatunov.pool.api.customer.service.CustomerService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class CustomerController {
     private final CustomerConverter converter;
 
     @PostMapping
-    public void createCustomer(@Validated @RequestBody CustomerDTO customer) {
+    public void createCustomer(@Validated @RequestBody CustomerCreateRequest customer) {
         service.saveCustomer(converter.convertCustomerDTOtoCustomer(customer));
     }
 
