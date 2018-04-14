@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class CustomerCreateRequest {
+public class CustomerRequest {
     @NotEmpty
     private String name;
     @NotEmpty
