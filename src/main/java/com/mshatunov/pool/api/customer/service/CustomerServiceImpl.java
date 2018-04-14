@@ -2,6 +2,7 @@ package com.mshatunov.pool.api.customer.service;
 
 import com.mshatunov.pool.api.customer.domain.LocalCustomer;
 import com.mshatunov.pool.api.customer.repository.CustomerRepository;
+import com.mshatunov.pool.api.customer.repository.model.Customer;
 import com.mshatunov.pool.api.customer.service.converter.LocalCustomerConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,9 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void saveCustomer(LocalCustomer customer) {
-        repository.save(converter.convertLocalCustomerToCustomer(customer));
+    public String saveCustomer(LocalCustomer customer) {
+        Customer savedCustomer = repository.save(converter.convertLocalCustomerToCustomer(customer));
+        return savedCustomer.getId();
     }
 }
+

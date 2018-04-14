@@ -20,7 +20,13 @@ public class CustomerController {
     private final CustomerConverter converter;
 
     @PostMapping
-    public void createCustomer(@Validated @RequestBody CustomerCreateRequest customer) {
+    public String createCustomer(@Validated @RequestBody CustomerCreateRequest customer) {
+        return service.saveCustomer(converter.convertCustomerDTOtoCustomer(customer));
+    }
+
+    @PutMapping
+    public void updateCustomer(@RequestParam String customerId,
+                               @RequestBody CustomerCreateRequest customer) {
         service.saveCustomer(converter.convertCustomerDTOtoCustomer(customer));
     }
 

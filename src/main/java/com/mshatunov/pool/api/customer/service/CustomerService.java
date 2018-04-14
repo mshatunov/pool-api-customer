@@ -7,5 +7,5 @@ import java.util.List;
 public interface CustomerService {
     LocalCustomer getCustomer(String customerId);
     List<LocalCustomer> getCustomers();
-    void saveCustomer(LocalCustomer customer);
+    String saveCustomer(LocalCustomer customer);
 }
