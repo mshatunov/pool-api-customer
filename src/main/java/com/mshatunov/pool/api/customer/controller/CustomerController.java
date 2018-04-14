@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomerController {
 
-    public static final String GET_URI = "{customerId}";
+    public static final String CUSTOMER_ID = "{customerId}";
 
     private final CustomerService service;
     private final CustomerConverter converter;
@@ -24,20 +24,20 @@ public class CustomerController {
         return service.saveCustomer(converter.convertCustomerRequestToCustomer(customer));
     }
 
-    @PutMapping
-    public void updateCustomer(@RequestParam String customerId,
-                               @RequestBody CustomerCreateRequest customer) {
-        service.saveCustomer(converter.convertCustomerDTOtoCustomer(customer));
-    }
-
     @GetMapping
     public List<CustomerResponse> getCustomers() {
         return converter.convertCustomersToResponse(service.getCustomers());
     }
 
-    @GetMapping(value = GET_URI)
+    @GetMapping(value = CUSTOMER_ID)
     public CustomerResponse getCustomer(@PathVariable("customerId") String customerId) {
         return converter.convertCustomerToResponse(service.getCustomer(customerId));
+    }
+
+    @PutMapping(value = CUSTOMER_ID)
+    public void updateCustomer(@PathVariable("customerId") String customerId,
+                               @RequestBody CustomerRequest customer) {
+        service.updateCustomer(customerId, converter.convertCustomerRequestToCustomer(customer));
     }
 
 }

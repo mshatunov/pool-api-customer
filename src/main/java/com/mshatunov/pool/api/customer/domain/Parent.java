@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.util.Map;
 
 @Data
 @Builder
@@ -15,6 +15,5 @@ public class Parent {
     private String name;
     private String lastNname;
     private String middleNname;
-    private List<Contact> contacts;
-    private List<Parent> parents;
+    private Map<ContactType, String> contacts;
 }

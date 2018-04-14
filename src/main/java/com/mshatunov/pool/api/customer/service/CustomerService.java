@@ -8,4 +8,6 @@ public interface CustomerService {
     LocalCustomer getCustomer(String customerId);
     List<LocalCustomer> getCustomers();
     String saveCustomer(LocalCustomer customer);
+
+    void updateCustomer(String customerId, LocalCustomer localCustomer);
 }

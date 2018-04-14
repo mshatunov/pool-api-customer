@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 @Builder
@@ -16,6 +17,6 @@ public class LocalCustomer {
     private String name;
     private String lastName;
     private String middleNaame;
-    private List<Contact> contacts;
+    private Map<ContactType, String> contacts;
     private List<Parent> parents;
 }

@@ -1,6 +1,7 @@
 package com.mshatunov.pool.api.customer.service;
 
 import com.mshatunov.pool.api.customer.domain.LocalCustomer;
+import com.mshatunov.pool.api.customer.exception.CustomerNotFoundException;
 import com.mshatunov.pool.api.customer.repository.CustomerRepository;
 import com.mshatunov.pool.api.customer.repository.model.Customer;
 import com.mshatunov.pool.api.customer.service.converter.LocalCustomerConverter;
@@ -20,7 +21,7 @@ public class CustomerServiceImpl implements CustomerService {
     public LocalCustomer getCustomer(String customerId) {
         return repository.findById(customerId)
                 .map(converter::convertCustomerToLocalCustomer)
-                .orElse(null);
+                .orElseThrow(() -> new CustomerNotFoundException(customerId));
     }
 
     @Override
@@ -32,6 +33,15 @@ public class CustomerServiceImpl implements CustomerService {
     public String saveCustomer(LocalCustomer customer) {
         Customer savedCustomer = repository.save(converter.convertLocalCustomerToCustomer(customer));
         return savedCustomer.getId();
+    }
+
+    @Override
+    public void updateCustomer(String customerId, LocalCustomer customer) {
+        if (!repository.existsById(customerId)) {
+            throw new CustomerNotFoundException(customerId);
+        }
+        customer.setId(customerId);
+        repository.save(converter.convertLocalCustomerToCustomer(customer));
     }
 }
 

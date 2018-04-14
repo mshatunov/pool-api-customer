@@ -1,7 +1,7 @@
 package com.mshatunov.pool.api.customer.controller.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.mshatunov.pool.api.customer.domain.Contact;
+import com.mshatunov.pool.api.customer.domain.ContactType;
 import com.mshatunov.pool.api.customer.domain.Parent;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @Builder
@@ -22,6 +23,6 @@ public class CustomerRequest {
     @NotEmpty
     private String lastName;
     private String middleName;
-    private List<Contact> contacts;
+    private Map<ContactType, String> contacts;
     private List<Parent> parents;
 }
