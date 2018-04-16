@@ -7,8 +7,8 @@ import com.mshatunov.pool.api.customer.controller.dto.CustomerResponse
 import com.mshatunov.pool.api.customer.domain.ContactType
 import com.mshatunov.pool.api.customer.repository.CustomerRepository
 import com.mshatunov.pool.api.customer.repository.model.Customer
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Test
 import org.junit.platform.commons.util.StringUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -28,7 +28,7 @@ class CustomerControllerTest extends BaseIntegrationTest {
 
     def classLoader = Thread.currentThread().getContextClassLoader()
 
-    @Before
+    @AfterEach
     void clearMongo() {
         repository.deleteAll()
     }
