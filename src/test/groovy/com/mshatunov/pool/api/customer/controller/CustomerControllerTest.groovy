@@ -63,10 +63,10 @@ class CustomerControllerTest extends BaseIntegrationTest {
     }
 
     @Test
-    void 'Successful all clients retrieval'() {
-        saveClient('1')
-        saveClient('2')
-        saveClient('3')
+    void 'Successful all customers retrieval'() {
+        saveCustomer('1')
+        saveCustomer('2')
+        saveCustomer('3')
 
         def response = mockMvc.perform(MockMvcRequestBuilders
                 .get('/')
@@ -74,40 +74,59 @@ class CustomerControllerTest extends BaseIntegrationTest {
 
         assertEquals(HttpStatus.OK.value(), response.getResponse().status)
 
-        List<CustomerResponse> clients = mapper.readValue(response.getResponse().contentAsString,
+        List<CustomerResponse> customers = mapper.readValue(response.getResponse().contentAsString,
                 new TypeReference<List<CustomerResponse>>() {})
-        assertEquals(3, clients.size())
+        assertEquals(3, customers.size())
     }
 
     @Test
-    void 'Successful single client retrieval'() {
-        def clientName = 'John'
+    void 'Successful single customer retrieval'() {
+        def customerName = 'John'
 
-        saveClient(clientName)
+        saveCustomer(customerName)
 
         def response = mockMvc.perform(MockMvcRequestBuilders
-                .get("/customerId_${clientName}")
+                .get("/customerId_${customerName}")
         ).andReturn()
 
         assertEquals(HttpStatus.OK.value(), response.getResponse().status)
 
-        CustomerResponse client = mapper.readValue(response.getResponse().contentAsString, CustomerResponse.class)
-        assertEquals('customerId_' + clientName, client.id)
-        assertEquals('name_' + clientName, client.name)
+        CustomerResponse customer = mapper.readValue(response.getResponse().contentAsString, CustomerResponse.class)
+        assertEquals('customerId_' + customerName, customer.id)
+        assertEquals('name_' + customerName, customer.name)
     }
 
     @Test
-    void 'Fail on single client retrieval - client does not exist'() {
+    void 'Fail on single customer retrieval - customer does not exist'() {
         assertThrows(NestedServletException.class, { ->
             mockMvc.perform(MockMvcRequestBuilders
                     .get("/1"))
         })
     }
 
-    private String saveClient(String name) {
+    @Test
+    void 'Successful update of existing customer'() {
+        def customerName = 'John'
+        saveCustomer(customerName)
+
+        def customerId = "customerId_${customerName}".toString() //GString is not supported in method args
+        def response = mockMvc.perform(MockMvcRequestBuilders
+                .put("/" + customerId)
+                .content(classLoader.getResourceAsStream("json/successPostRequest.json").text)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+        ).andReturn()
+
+        assertEquals(HttpStatus.OK.value(), response.getResponse().status)
+
+        Customer customer = repository.findById(customerId).get()
+        assertEquals("name", customer.name)
+
+    }
+
+    private String saveCustomer(String id) {
         return repository.save(Customer.builder()
-                .id("customerId_${name}")
-                .name("name_${name}")
+                .id("customerId_${id}")
+                .name("name_${id}")
                 .build()).id
     }
 
