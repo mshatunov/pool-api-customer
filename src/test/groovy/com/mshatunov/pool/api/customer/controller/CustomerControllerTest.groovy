@@ -14,9 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import org.springframework.web.util.NestedServletException
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
+import static org.junit.jupiter.api.Assertions.assertThrows
 
 class CustomerControllerTest extends BaseIntegrationTest {
 
@@ -92,6 +94,14 @@ class CustomerControllerTest extends BaseIntegrationTest {
         CustomerResponse client = mapper.readValue(response.getResponse().contentAsString, CustomerResponse.class)
         assertEquals('customerId_' + clientName, client.id)
         assertEquals('name_' + clientName, client.name)
+    }
+
+    @Test
+    void 'Fail on single client retrieval - client does not exist'() {
+        assertThrows(NestedServletException.class, { ->
+            mockMvc.perform(MockMvcRequestBuilders
+                    .get("/1"))
+        })
     }
 
     private String saveClient(String name) {
