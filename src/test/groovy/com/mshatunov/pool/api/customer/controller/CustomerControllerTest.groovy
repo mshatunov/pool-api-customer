@@ -1,10 +1,14 @@
 package com.mshatunov.pool.api.customer.controller
 
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.mshatunov.pool.api.customer.BaseIntegrationTest
+import com.mshatunov.pool.api.customer.controller.dto.CustomerResponse
 import com.mshatunov.pool.api.customer.domain.ContactType
 import com.mshatunov.pool.api.customer.repository.CustomerRepository
 import com.mshatunov.pool.api.customer.repository.model.Customer
 import org.junit.Test
+import org.junit.jupiter.api.AfterEach
 import org.junit.platform.commons.util.StringUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -19,11 +23,18 @@ class CustomerControllerTest extends BaseIntegrationTest {
     @Autowired
     CustomerRepository repository
 
+    @Autowired
+    ObjectMapper mapper
+
     def classLoader = Thread.currentThread().getContextClassLoader()
+
+    @AfterEach
+    void clearMongo() {
+        repository.deleteAll()
+    }
 
     @Test
     void 'Successful client saving'() {
-
         def response = mockMvc.perform(MockMvcRequestBuilders
                 .post('/')
                 .content(classLoader.getResourceAsStream("json/successPostRequest.json").text)
@@ -47,6 +58,30 @@ class CustomerControllerTest extends BaseIntegrationTest {
         assertEquals(customer.parents.get(0).lastName, "parentLastName")
         assertEquals(customer.parents.get(0).contacts.get(ContactType.PHONE), "parentPhone")
         assertEquals(customer.parents.get(0).contacts.get(ContactType.EMAIL), "parentEmail")
+    }
+
+    @Test
+    void 'Successful all clients retrieval'() {
+        saveClient('1')
+        saveClient('2')
+        saveClient('3')
+
+        def response = mockMvc.perform(MockMvcRequestBuilders
+                .get('/')
+        ).andReturn()
+
+        assertTrue(response.getResponse().status == HttpStatus.OK.value())
+
+        List<CustomerResponse> clients = mapper.readValue(response.getResponse().contentAsString,
+                new TypeReference<List<CustomerResponse>>() {})
+        assertTrue(clients.size() == 3)
+    }
+
+    private String saveClient(int i) {
+        return repository.save(Customer.builder()
+                .id("customerId_${name}")
+                .name("name_${name}")
+                .build()).id
     }
 
 }
