@@ -7,8 +7,8 @@ import com.mshatunov.pool.api.customer.controller.dto.CustomerResponse
 import com.mshatunov.pool.api.customer.domain.ContactType
 import com.mshatunov.pool.api.customer.repository.CustomerRepository
 import com.mshatunov.pool.api.customer.repository.model.Customer
+import org.junit.Before
 import org.junit.Test
-import org.junit.jupiter.api.AfterEach
 import org.junit.platform.commons.util.StringUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -28,7 +28,7 @@ class CustomerControllerTest extends BaseIntegrationTest {
 
     def classLoader = Thread.currentThread().getContextClassLoader()
 
-    @AfterEach
+    @Before
     void clearMongo() {
         repository.deleteAll()
     }
@@ -77,7 +77,24 @@ class CustomerControllerTest extends BaseIntegrationTest {
         assertTrue(clients.size() == 3)
     }
 
-    private String saveClient(int i) {
+    @Test
+    void 'Successful single client retrieval'() {
+        def clientName = 'John'
+
+        saveClient(clientName)
+
+        def response = mockMvc.perform(MockMvcRequestBuilders
+                .get("/customerId_${clientName}")
+        ).andReturn()
+
+        assertEquals(response.getResponse().status, HttpStatus.OK.value())
+
+        CustomerResponse client = mapper.readValue(response.getResponse().contentAsString, CustomerResponse.class)
+        assertEquals(client.id, 'customerId_' + clientName)
+        assertEquals(client.name, 'name_' + clientName)
+    }
+
+    private String saveClient(String name) {
         return repository.save(Customer.builder()
                 .id("customerId_${name}")
                 .name("name_${name}")
