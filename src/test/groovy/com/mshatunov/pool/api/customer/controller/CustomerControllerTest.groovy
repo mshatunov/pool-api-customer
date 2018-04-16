@@ -41,23 +41,23 @@ class CustomerControllerTest extends BaseIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
         ).andReturn()
 
-        assertTrue(response.getResponse().status == HttpStatus.OK.value())
+        assertEquals(HttpStatus.OK.value(), response.getResponse().status)
 
         def customerId = response.getResponse().contentAsString
         assertTrue(StringUtils.isNotBlank(customerId))
 
         Customer customer = repository.findById(customerId).get()
 
-        assertEquals(customer.name, "name")
-        assertEquals(customer.middleName, "middleName")
-        assertEquals(customer.lastName, "lastName")
-        assertEquals(customer.contacts.get(ContactType.PHONE), "phone")
-        assertEquals(customer.contacts.get(ContactType.EMAIL), "email")
-        assertEquals(customer.parents.get(0).name, "parentName")
-        assertEquals(customer.parents.get(0).middleName, "parentMiddleName")
-        assertEquals(customer.parents.get(0).lastName, "parentLastName")
-        assertEquals(customer.parents.get(0).contacts.get(ContactType.PHONE), "parentPhone")
-        assertEquals(customer.parents.get(0).contacts.get(ContactType.EMAIL), "parentEmail")
+        assertEquals("name", customer.name)
+        assertEquals("middleName", customer.middleName)
+        assertEquals("lastName", customer.lastName)
+        assertEquals("phone", customer.contacts.get(ContactType.PHONE))
+        assertEquals("email", customer.contacts.get(ContactType.EMAIL))
+        assertEquals("parentName", customer.parents.get(0).name)
+        assertEquals("parentMiddleName", customer.parents.get(0).middleName)
+        assertEquals("parentLastName", customer.parents.get(0).lastName)
+        assertEquals("parentPhone", customer.parents.get(0).contacts.get(ContactType.PHONE))
+        assertEquals("parentEmail", customer.parents.get(0).contacts.get(ContactType.EMAIL))
     }
 
     @Test
@@ -70,11 +70,11 @@ class CustomerControllerTest extends BaseIntegrationTest {
                 .get('/')
         ).andReturn()
 
-        assertTrue(response.getResponse().status == HttpStatus.OK.value())
+        assertEquals(HttpStatus.OK.value(), response.getResponse().status)
 
         List<CustomerResponse> clients = mapper.readValue(response.getResponse().contentAsString,
                 new TypeReference<List<CustomerResponse>>() {})
-        assertTrue(clients.size() == 3)
+        assertEquals(3, clients.size())
     }
 
     @Test
@@ -87,11 +87,11 @@ class CustomerControllerTest extends BaseIntegrationTest {
                 .get("/customerId_${clientName}")
         ).andReturn()
 
-        assertEquals(response.getResponse().status, HttpStatus.OK.value())
+        assertEquals(HttpStatus.OK.value(), response.getResponse().status)
 
         CustomerResponse client = mapper.readValue(response.getResponse().contentAsString, CustomerResponse.class)
-        assertEquals(client.id, 'customerId_' + clientName)
-        assertEquals(client.name, 'name_' + clientName)
+        assertEquals('customerId_' + clientName, client.id)
+        assertEquals('name_' + clientName, client.name)
     }
 
     private String saveClient(String name) {
