@@ -1,0 +1,20 @@
+{
+  "name": "name",
+  "lastName": "lastName",
+  "middleName": "middleName",
+  "contacts": {
+    "phone": "phone",
+    "email": "email"
+  },
+  "parents": [
+    {
+      "name": "parentName",
+      "lastName": "parentLastName",
+      "middleName": "parentMiddleName",
+      "contacts": {
+        "phone": "parentPhone",
+        "email": "parentEmail"
+      }
+    }
+  ]
+}

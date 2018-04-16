@@ -16,7 +16,7 @@ public class LocalCustomer {
     private String id;
     private String name;
     private String lastName;
-    private String middleNaame;
+    private String middleName;
     private Map<ContactType, String> contacts;
     private List<Parent> parents;
 }

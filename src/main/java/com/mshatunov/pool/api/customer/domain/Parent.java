@@ -13,7 +13,7 @@ import java.util.Map;
 @NoArgsConstructor
 public class Parent {
     private String name;
-    private String lastNname;
-    private String middleNname;
+    private String lastName;
+    private String middleName;
     private Map<ContactType, String> contacts;
 }
