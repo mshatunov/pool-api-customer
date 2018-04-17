@@ -80,7 +80,7 @@ task copyJar(type: Copy, dependsOn: bootJar) {
     into dockerfile.destFile.parentFile
 }
 
-task buildImage(type: DockerBuildImage,dependsOn: [build, dockerfile, copyJar, check]) {
+task buildImage(type: DockerBuildImage, dependsOn: [build, dockerfile, copyJar, check]) {
     inputDir dockerfile.destFile.parentFile
     tag = 'mshatunov/pool-api-customer:latest'
 }
@@ -88,8 +88,8 @@ task buildImage(type: DockerBuildImage,dependsOn: [build, dockerfile, copyJar, c
 task pushImage(type: DockerPushImage, dependsOn: buildImage) {
     imageName = buildImage.tag
     def dockerRegistryCredentials = new DockerRegistryCredentials()
-    dockerRegistryCredentials.username = "${dockerUser}"
-    dockerRegistryCredentials.password = "${dockerPassword}"
+    dockerRegistryCredentials.username = project.hasProperty('dockerUser') ? dockerUser : System.getenv('dockerUser')
+    dockerRegistryCredentials.password = project.hasProperty('dockerPassword') ? dockerPassword : System.getenv('dockerPassword')
     registryCredentials = dockerRegistryCredentials
 }
 
