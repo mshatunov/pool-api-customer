@@ -2,5 +2,3 @@ sudo: required
 language: java
 script:
   - ./gradlew pushImage
-after_success:
-  - ./gradlew cobertura coveralls
