@@ -43,5 +43,10 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setId(customerId);
         repository.save(converter.convertLocalCustomerToCustomer(customer));
     }
+
+    @Override
+    public void deleteCustomer(String customerId) {
+        repository.deleteById(customerId);
+    }
 }
 

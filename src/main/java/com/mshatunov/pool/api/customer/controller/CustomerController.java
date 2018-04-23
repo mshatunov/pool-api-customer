@@ -15,6 +15,7 @@ import java.util.List;
 public class CustomerController {
 
     public static final String CUSTOMER_ID = "{customerId}";
+    public static final String CUSTOMER_PATH = "customerId";
 
     private final CustomerService service;
     private final CustomerConverter converter;
@@ -30,14 +31,19 @@ public class CustomerController {
     }
 
     @GetMapping(value = CUSTOMER_ID)
-    public CustomerResponse getCustomer(@PathVariable("customerId") String customerId) {
+    public CustomerResponse getCustomer(@PathVariable(CUSTOMER_PATH) String customerId) {
         return converter.convertCustomerToResponse(service.getCustomer(customerId));
     }
 
     @PutMapping(value = CUSTOMER_ID)
-    public void updateCustomer(@PathVariable("customerId") String customerId,
+    public void updateCustomer(@PathVariable(CUSTOMER_PATH) String customerId,
                                @RequestBody CustomerRequest customer) {
         service.updateCustomer(customerId, converter.convertCustomerRequestToCustomer(customer));
+    }
+
+    @DeleteMapping(value = CUSTOMER_ID)
+    public void deleteCustomer(@PathVariable(CUSTOMER_PATH) String customerId) {
+        service.deleteCustomer(customerId);
     }
 
 }
