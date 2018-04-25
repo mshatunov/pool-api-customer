@@ -82,7 +82,7 @@ task copyJar(type: Copy, dependsOn: bootJar) {
 
 task buildImage(type: DockerBuildImage, dependsOn: [build, dockerfile, copyJar, check]) {
     inputDir dockerfile.destFile.parentFile
-    tag = 'mshatunov/pool-api-customer:latest'
+    tag = "mshatunov/${rootProject.name}:latest"
 }
 
 task pushImage(type: DockerPushImage, dependsOn: buildImage) {
@@ -94,5 +94,5 @@ task pushImage(type: DockerPushImage, dependsOn: buildImage) {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '4.6'
+    gradleVersion = '4.7'
 }
